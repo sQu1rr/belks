@@ -14,10 +14,9 @@ using uint = uint32_t;
 using byte = uint8_t;
 
 using gsl::span;
+using gsl::string_span;
+using gsl::cstring_span;
 using gsl::narrow_cast;
-
-using String = std::string;
-using StringSpan = gsl::string_span<>;
 
 template<typename E>
 constexpr auto underlying_cast(E e) -> typename std::underlying_type<E>::type 
