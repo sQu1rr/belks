@@ -1,7 +1,7 @@
 #ifndef SQ_BELKS_LOOPER_HPP
 #define SQ_BELKS_LOOPER_HPP
 
-#include "belks.hpp"
+#include "base.hpp"
 
 #include <chrono>
 #include <thread>

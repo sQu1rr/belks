@@ -1,7 +1,7 @@
 #ifndef SQ_BELKS_IO_HPP
 #define SQ_BELKS_IO_HPP
 
-#include "belks.hpp"
+#include "base.hpp"
 #include "util.hpp"
 
 #include <sstream>

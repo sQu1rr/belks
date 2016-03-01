@@ -1,5 +1,5 @@
-#ifndef SQ_BELKS_BELKS_HPP
-#define SQ_BELKS_BELKS_HPP
+#ifndef SQ_BELKS_BASE_HPP
+#define SQ_BELKS_BASE_HPP
 
 #include "gsl.h"
 #include <string>
@@ -17,12 +17,6 @@ using gsl::span;
 using gsl::string_span;
 using gsl::cstring_span;
 using gsl::narrow_cast;
-
-template<typename E>
-constexpr auto underlying_cast(E e) -> typename std::underlying_type<E>::type 
-{
-    return static_cast<typename std::underlying_type<E>::type>(e);
-}
 
 } // \sq
 
