@@ -1,7 +1,5 @@
-#ifndef SQ_BELKS_UTIL_HPP
-#define SQ_BELKS_UTIL_HPP
-
-#include "base.hpp"
+#ifndef SQ_BELKS_MPL_HPP
+#define SQ_BELKS_MPL_HPP
 
 #include <functional>
 
