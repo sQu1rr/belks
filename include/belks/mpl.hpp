@@ -1,3 +1,7 @@
+/** 
+ * @file mpl.hpp
+ * @brief Metaprogramming compile-time utilities
+ */
 #ifndef SQ_BELKS_MPL_HPP
 #define SQ_BELKS_MPL_HPP
 
@@ -7,7 +11,6 @@ namespace sq {
 
 namespace belks {
 
-// http://stackoverflow.com/a/21266968/1842900
 namespace lambda_type_detail {
 
 template <typename F>
@@ -31,6 +34,17 @@ struct Partial : Lambda {
 
 } // \lambda_type_detail
 
+
+/** 
+ * @brief Converts lambda to std::function if possible
+ *
+ * Original implementation is taken from the following link
+ * http://stackoverflow.com/a/21266968/1842900
+ * 
+ * @param lambda lambda to convert
+ * 
+ * @return Labda converted to std::function
+ */
 template <class Lambda>
 auto toFunction(Lambda lambda)
 {

@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 
 project (belks)
 
-set (FLAGS "-Wall -Werror -std=c++14 -pedantic-errors -pipe -lz")
+set (FLAGS "-Wall -Werror -std=c++14 -pedantic-errors -pipe")
 set (FLAGS "${FLAGS} -fno-stack-protector") # Some linux distributions have it
 set (FLAGS "${FLAGS} -march=native") # Building for this PC only
 

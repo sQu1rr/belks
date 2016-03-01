@@ -1,3 +1,7 @@
+/** 
+ * @file io.hpp
+ * @brief Functions for user-friendly output generation
+ */
 #ifndef SQ_BELKS_IO_HPP
 #define SQ_BELKS_IO_HPP
 
@@ -11,26 +15,40 @@ namespace sq {
 
 namespace belks {
 
-enum class SizeType { b, kb, mb, gb, tb };
+/** Possible size units */
+enum class SizeType { b, kb, mb, gb, tb, pb };
 
 namespace size_to_string_detail {
 
-constexpr const char* names[] = { "b", "kb", "mb", "gb", "tb" };
+constexpr const char* names[] = { "b", "kb", "mb", "gb", "tb", "pb" };
 
-std::string sizeToString(float size, int n=0)
+inline auto sizeToString(float size, int n=0) noexcept
 {
-    if (size >= 1023.999f) return sizeToString(size / 1024.0f, n + 1);
-
-    std::stringstream ss;
-    ss << std::fixed << std::setprecision(2) << size << names[n];
-
-    return ss.str();
+    if (size <= 1023.999f) {
+        std::stringstream ss;
+        ss << std::fixed << std::setprecision(2) << size << names[n];
+        return ss.str();
+    }
+    return sizeToString(size / 1024.0f, n + 1);
 }
 
 } // \size_to_string_detail
 
+/** 
+ * @brief Converts bit count to a string representation
+ *
+ * If more than 7 bits -> automatic conversion to the next unit recursively
+ * Possible outputs: 1 bit, 7 bits, or any of sizeToString() outputs
+ * 
+ * @param bits bit count
+ * 
+ * @return String representing the bit count
+ *
+ * @see sizeToString()
+ * @see SizeType
+ */
 template <typename T>
-auto bitsToString(T bits)
+inline auto bitsToString(T bits) noexcept
 {
     if (bits == 1) return "1 bit"s;
     if (bits < 8) return std::to_string(bits) + " bits"s;
@@ -38,8 +56,22 @@ auto bitsToString(T bits)
     return size_to_string_detail::sizeToString(ceilToMod(bits, 8) / 8);
 }
 
+/** 
+ * @brief Converts size in a specific unit to a string representation
+ *
+ * Converts to the next unit recursively if possible
+ * Possible output: 20.05mb, 80.00gb
+ * Precision is always 2 decimal places
+ * 
+ * @param size given size
+ * 
+ * @return String representation of size
+ *
+ * @see bitsToString() if input is bits
+ * @see SizeType
+ */
 template <SizeType Type, typename T>
-auto sizeToString(T size)
+inline auto sizeToString(T size) noexcept
 {
     return size_to_string_detail::sizeToString(size, underlying_cast(Type));
 }
