@@ -34,7 +34,6 @@ using gsl::narrow_cast;
  * @warning Temporary will auto-destruct after function is executed. Function
  *          must not save this temporary for later reuse
  */
-
 template <typename Cont>
 constexpr auto asTemp(Cont &&cont) ->
         std::enable_if_t<!gsl::details::is_span<
