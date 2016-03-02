@@ -1,22 +1,21 @@
 ExternalProject_Add (
     catch
     PREFIX ${CMAKE_BINARY_DIR}/catch
-    SOURCE_DIR ${LIBS_DIR}/catch
     GIT_REPOSITORY https://github.com/philsquared/Catch.git
     TIMEOUT 10
-    UPDATE_COMMAND ${GIT_EXECUTABLE} pull
+    UPDATE_COMMAND "" #${GIT_EXECUTABLE} pull v.1.3.5 is broken
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
+    GIT_TAG "v1.3.4" # master is broken
     LOG_DOWNLOAD ON)
 
 ExternalProject_Get_Property (catch source_dir)
-set (CATCH_INCLUDE_DIR ${LIBS_DIR}/catch/single_include CACHE INTERNAL "Catch")
-include_directories (${CATCH_INCLUDE_DIR})
+include_directories (${source_dir}/single_include)
 
-file (GLOB_RECURSE TEST_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
+file (GLOB_RECURSE srcs RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
 
-foreach (fileSrc ${TEST_SRCS})
+foreach (fileSrc ${srcs})
     get_filename_component (fileName ${fileSrc} NAME_WE)
     get_filename_component (filePath ${fileSrc} DIRECTORY)
 

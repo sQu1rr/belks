@@ -10,14 +10,12 @@ if (UNIX)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAGS}")
 endif ()
 
-set (LIBS_DIR ${CMAKE_SOURCE_DIR}/libs)
 include(ExternalProject)
 find_package(Git REQUIRED)
 
 ExternalProject_Add (
     gsl
     PREFIX ${CMAKE_BINARY_DIR}/gsl
-    SOURCE_DIR ${LIBS_DIR}/gsl
     GIT_REPOSITORY https://github.com/Microsoft/GSL.git
     TIMEOUT 10
     UPDATE_COMMAND ${GIT_EXECUTABLE} pull
@@ -25,7 +23,8 @@ ExternalProject_Add (
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
     LOG_DOWNLOAD ON)
-include_directories (${LIBS_DIR}/gsl/include)
+ExternalProject_Get_Property(gsl source_dir)
+include_directories (${source_dir}/include)
 
 enable_testing (true)
 
