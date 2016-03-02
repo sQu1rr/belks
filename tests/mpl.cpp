@@ -7,6 +7,8 @@ namespace sq {
 
 namespace belks {
 
+void r(bool& w) { w = true; }
+
 SCENARIO( "Testing lamda to function" ) {
     bool works = false;
     auto f = toFunction([&works]() { works = true; });
@@ -18,6 +20,10 @@ SCENARIO( "Testing lamda to function" ) {
     }
     WHEN( "Converting std::function" ) {
         toFunction(f)();
+        REQUIRE( works );
+    }
+    WHEN( "Converting real function" ) {
+        toFunction(r)(works);
         REQUIRE( works );
     }
 }

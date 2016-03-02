@@ -11,45 +11,46 @@ namespace sq {
 
 namespace belks {
 
-namespace lambda_type_detail {
+namespace to_function_detail {
 
-template <typename F>
-struct FunctionTraits : public FunctionTraits<decltype(&F::operator())> { };
+template <typename Callable>
+struct Trait : public Trait<decltype(&Callable::operator ())> { };
 
-template <typename ClassType, typename ReturnType, typename... Args>
-struct FunctionTraits<ReturnType (ClassType::*)(Args...) const> {
-    using function = const std::function<ReturnType (Args...)>;
-};
+template <typename Class, typename Ret, typename... Args>
+struct Trait<Ret (Class::*)(Args...)> { using Type = Ret (Args...); };
 
-template <typename Function>
-auto extract(Function& lambda) {
-    return static_cast<typename FunctionTraits<Function>::function>(lambda);
-}
+template <typename Class, typename Ret, typename... Args>
+struct Trait<Ret (Class::*)(Args...) const> { using Type = Ret (Args...); };
 
-template <class Lambda>
-struct Partial : Lambda {
-    Partial(Lambda lambda) : Lambda(lambda) { }
-    auto convert() { return extract(*reinterpret_cast<Lambda*>(this)); }
-};
-
-} // \lambda_type_detail
-
+} // \to_function_detail
 
 /** 
- * @brief Converts lambda to std::function if possible
+ * @brief Wraps callable into std::function if needed
  *
- * Original implementation is taken from the following link
- * http://stackoverflow.com/a/21266968/1842900
+ * Inspired by http://stackoverflow.com/a/21266968/1842900
  * 
- * @param lambda lambda to convert
+ * @param callable Callable to convert
  * 
- * @return Labda converted to std::function
+ * @return Callable converted to std::function
  */
-template <class Lambda>
-auto toFunction(Lambda lambda)
+template <typename Callable>
+constexpr auto toFunction(Callable&& callable)
 {
-    using namespace lambda_type_detail;
-    return Partial<Lambda>(lambda).convert();
+    using T = typename to_function_detail::Trait<std::decay_t<Callable>>::Type;
+    return std::function<T>{callable};
+}
+
+/** 
+ * @brief Wraps function pointer into std::function
+ *
+ * @param callable Callable to convert
+ * 
+ * @return Callable converted to std::function
+ */
+template <typename Ret, typename... Args>
+constexpr auto toFunction(Ret (*callable)(Args...))
+{
+    return std::function<Ret (Args...)>{callable};
 }
 
 } // \belks
