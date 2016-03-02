@@ -2,8 +2,8 @@
  * @file random.hpp
  * @brief Utilities for random data generation
  */
-#ifndef SQ_BELKS_SEMVER_HPP
-#define SQ_BELKS_SEMVER_HPP
+#ifndef SQ_BELKS_RANDOM_HPP
+#define SQ_BELKS_RANDOM_HPP
 
 #include <random>
 
@@ -19,7 +19,7 @@ namespace belks {
  * @warning Initialisation is thread-safe however usage is not
  */
 template <typename T=std::mt19937>
-T& randomDevice()
+inline T& randomDevice()
 {
     static std::random_device rd;
     static T mt(rd());
@@ -33,7 +33,7 @@ T& randomDevice()
  * 
  * @warning Initialisation is thread-safe however usage is not
  */
-auto& drd()
+inline auto& drd()
 {
     return randomDevice<>();
 }
