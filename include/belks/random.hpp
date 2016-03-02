@@ -19,7 +19,7 @@ namespace belks {
  * @warning Initialisation is thread-safe however usage is not
  */
 template <typename T=std::mt19937>
-inline T& randomDevice()
+inline auto& randomDevice()
 {
     static std::random_device rd;
     static T mt(rd());

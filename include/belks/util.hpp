@@ -35,7 +35,7 @@ constexpr auto underlying_cast(E e) -> typename std::underlying_type<E>::type
  * @return next number divisible by divisor or initial if already is
  */
 template <typename T>
-T ceilToMod(T value, uint mod)
+constexpr auto ceilToMod(T value, uint mod)
 {
     const auto offset = value % mod;
     return offset ? value + (mod - offset) : value;
