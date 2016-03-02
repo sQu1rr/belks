@@ -24,7 +24,7 @@ constexpr const char* names[] = { "b", "kb", "mb", "gb", "tb", "pb" };
 
 inline auto sizeToString(float size, int n=0) noexcept
 {
-    if (size <= 1024.f) {
+    if (size < 1024.f) {
         std::stringstream ss;
         ss << std::fixed << std::setprecision(2) << size << names[n];
         return ss.str();
